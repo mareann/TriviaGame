@@ -7,38 +7,52 @@
     <meta charset="UTF-8">
     <title>Trivia Game</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/countdown.css">
     <link rel="stylesheet" href="assets/javascript/app.js">
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
 
   <body>
-<!-- * Make a page with a a simple timer that sends an alert and plays a sound after 15 seconds.
+<!-- * Make a page with a a simple timer of 15 seconds.
 * Have it send an alert when 5 seconds has passed, 10 seconds has passed and when the time is up. -->
-    <div>
+    <div id="wrapper">
       <h1>TRIVIA TIME</h1>
-    </div>
-    <div id="time-left"></div>
-    <div id="name"></div>
-    <div id="message"></div>
+    
+      <div id="time-left"></div>
+      <div id="name"></div>
+      <div id="message"></div>
 
-    <div id="startSection">
-      <button id="start">START</button>
-    </div>
+      <div id="startSection">
+        <button id="start">START</button>
+      </div>
 
-    <div id="questionSection"></div>
-    <div id="answerSection" class="vertical-menu">  
-      <button id="answerA"></button>
-      <button id="answerB"></button>   
-      <button id="answerC"></button>
-      <button id="answerD"></button>     
-    </div>  
+      <div id="questionSection"></div>
+      <div id="answerSection" class="vertical-menu">  
+        <button id="answerA"></button>
+        <button id="answerB"></button>   
+        <button id="answerC"></button>
+        <button id="answerD"></button>     
+      </div>  
+    </div> <!-- end wrapper -->
 
     <script>
       var Questions = [ 'question1: what is favorite color?'];
       var Answers   = [ "A  blue", "B  green", "C  yellow", "D  purple"];
       var selectedAnswer = "none";
       var answerChosen = false;
+
+      hideAnswerButtons();
+
+      function hideAnswerButtons() {
+        $("#answerSection").attr("class","hide");
+        console.log("hideAnswerButtons");
+      }
+
+      function showAnswerButtons() {
+        $("#answerSection").attr("class","show"); 
+        console.log("showAnswerButtons");      
+      }
 
       var userName = prompt("What's your name?");
       $("#name").text("Hi " + userName);
@@ -47,17 +61,16 @@
       $("#time-left").text("15 seconds per question");
       $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
       $("#questionSection").text("**** TRIVIA QUESTIONS ****");
-      $("#start").click( function() {
-        //alert("starting"); 
-       $("#time-left").text("15 seconds left");
-        letsPlay=true; 
-        console.log("START letsPlay " + letsPlay);
-        if  ( letsPlay ) {
-          $("#message").text("SELECT YOUR ANSWER BELOW");
-          displayTimeLeft();
-          letsPlay = playGame();
+      $("#start").click( function() { 
+         $("#time-left").text("15 seconds left");
+         letsPlay=true; 
+         console.log("START letsPlay " + letsPlay);
+         if  ( letsPlay ) {
+            $("#message").text("SELECT YOUR ANSWER BELOW");
+            displayTimeLeft();
+            letsPlay = playGame();
         }
-        $("#start").attr('disabled',true);
+        $("#start").attr("disabled","true");
         $("#start").attr("class","disabled");
       });
 
@@ -80,6 +93,7 @@
         console.log("questionDisplay");
 
         $("#questionSection").text(Questions[0]);
+        showAnswerButtons();
 
         $("#answerA").text(Answers[0]);
         $("#answerB").text(Answers[1]);
@@ -96,6 +110,7 @@
             answerChosen = true;
             $("#message").text("You selected A");
             $("#answerA").attr("selected",true);
+            $("#answerA").attr("class","selected");
         }
        });
 
@@ -116,6 +131,7 @@
             answerChosen = true;
             $("#message").text("You selected C");
             $("#answerC").attr("selected",true);
+            $("#answerC").attr("class","selected");
             console.log("playGame " + "C selected " + selectedAnswer);
           }
        });
@@ -127,6 +143,7 @@
             answerChosen = true;
             $("#message").text("You selected D");
             $("#answerD").attr("selected",true);
+            $("#answerD").attr("class","selected");
             console.log("playGame " + "D selected " + selectedAnswer);
           }
        });
@@ -138,21 +155,8 @@
 
       function fiveSeconds() {
         //var temp = "";
-        $("#time-left").text("10 seconds left");
-
-        
-        //var a = document.getElementById("answerA"); 
-
-        //a.value = a.innerHTML = Answers[0];
-        //console.log("5sec a.value " + a.value);
-        console.log("5sec Answers[0] " + Answers[0]);
-
-        //document.getElementById("answerB").innerHTML = Answers[1];
-        //document.getElementById("answerC").innerHTML = Answers[2];
-        //document.getElementById("answerD").innerHTML = Answers[3];
-        // in the element with an id of time-left add an h2 saying About 10 Seconds Left!
-        // console log 10 seconds left
-        
+        $("#time-left").text("10 seconds left"); 
+        console.log("10 seconds left -- 5 sec");
       }
 
 

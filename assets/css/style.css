@@ -21,7 +21,6 @@ h1 {
 
 #startSection {
 	height: 33%;
-	/*width: 33%;*/
     margin: auto;
     text-align: center;
 }
@@ -41,6 +40,14 @@ h1 {
 .disabled {
     opacity: 0.7;
     cursor: not-allowed;
+}
+
+.hide {
+   display: none;
+}
+
+.show {
+	display: block;
 }
 
 .selected {

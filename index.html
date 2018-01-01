@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Trivia Game</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/javascript/app.js">
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+<!-- * Make a page with a a simple timer that sends an alert and plays a sound after 15 seconds.
+* Have it send an alert when 5 seconds has passed, 10 seconds has passed and when the time is up. -->
+    <div>
+      <h1>TRIVIA TIME</h1>
+    </div>
+    <div id="time-left"></div>
+    <div id="name"></div>
+    <div id="message"></div>
+
+    <div id="startSection">
+      <button id="start">START</button>
+    </div>
+
+    <div id="questionSection"></div>
+    <div id="answerSection" class="vertical-menu">  
+      <button id="answerA"></button>
+      <button id="answerB"></button>   
+      <button id="answerC"></button>
+      <button id="answerD"></button>     
+    </div>  
+
+    <script>
+      var Questions = [ 'question1: what is favorite color?'];
+      var Answers   = [ "A  blue", "B  green", "C  yellow", "D  purple"];
+      var selectedAnswer = "none";
+      var answerChosen = false;
+
+      var userName = prompt("What's your name?");
+      $("#name").text("Hi " + userName);
+      var letsPlay = false;
+
+      $("#time-left").text("15 seconds per question");
+      $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
+      $("#questionSection").text("**** TRIVIA QUESTIONS ****");
+      $("#start").click( function() {
+        //alert("starting"); 
+       $("#time-left").text("15 seconds left");
+        letsPlay=true; 
+        console.log("START letsPlay " + letsPlay);
+        if  ( letsPlay ) {
+          $("#message").text("SELECT YOUR ANSWER BELOW");
+          displayTimeLeft();
+          letsPlay = playGame();
+        }
+        $("#start").attr('disabled',true);
+        $("#start").attr("class","disabled");
+      });
+
+      console.log("letsPlay before " + letsPlay);
+
+      function displayTimeLeft () {
+      
+        console.log( "letsPlay " + letsPlay);
+
+        // display question
+        setTimeout(displayQuestion,10);
+        setTimeout(timeUp,1000*15);
+        setTimeout(tenSeconds,1000*10);
+        setTimeout(fiveSeconds,1000*5); //dont need () inside setTimeout
+
+      }
+
+      function displayQuestion() {
+
+        console.log("questionDisplay");
+
+        $("#questionSection").text(Questions[0]);
+
+        $("#answerA").text(Answers[0]);
+        $("#answerB").text(Answers[1]);
+        $("#answerC").text(Answers[2]);
+        $("#answerD").text(Answers[3]);
+      }
+
+      function playGame() {
+
+       $("#answerA").click(function() {
+          if ( answerChosen == false ){
+            selectedAnswer = "A";
+            console.log("playGame " + "A selected " + selectedAnswer);
+            answerChosen = true;
+            $("#message").text("You selected A");
+            $("#answerA").attr("selected",true);
+        }
+       });
+
+       $("#answerB").click(function() {
+          if ( answerChosen == false ) {
+            selectedAnswer = "B";
+            answerChosen = true;
+            $("#message").text("You selected B");
+            $("#answerB").attr("class","selected");
+            console.log("playGame " + "B selected " + selectedAnswer);
+          }
+       });
+
+
+       $("#answerC").click(function() {
+          if ( answerChosen == false ) {
+            selectedAnswer = "C";
+            answerChosen = true;
+            $("#message").text("You selected C");
+            $("#answerC").attr("selected",true);
+            console.log("playGame " + "C selected " + selectedAnswer);
+          }
+       });
+
+
+       $("#answerD").click(function() {
+          if ( answerChosen == false ) {
+            selectedAnswer = "D";
+            answerChosen = true;
+            $("#message").text("You selected D");
+            $("#answerD").attr("selected",true);
+            console.log("playGame " + "D selected " + selectedAnswer);
+          }
+       });
+
+       console.log("playGame " + "answer selected " + selectedAnswer);
+
+       return false;
+      }
+
+      function fiveSeconds() {
+        //var temp = "";
+        $("#time-left").text("10 seconds left");
+
+        
+        //var a = document.getElementById("answerA"); 
+
+        //a.value = a.innerHTML = Answers[0];
+        //console.log("5sec a.value " + a.value);
+        console.log("5sec Answers[0] " + Answers[0]);
+
+        //document.getElementById("answerB").innerHTML = Answers[1];
+        //document.getElementById("answerC").innerHTML = Answers[2];
+        //document.getElementById("answerD").innerHTML = Answers[3];
+        // in the element with an id of time-left add an h2 saying About 10 Seconds Left!
+        // console log 10 seconds left
+        
+      }
+
+
+      function tenSeconds() {
+        $("#time-left").text("5 seconds left");
+        console.log("5 sec left ten seconds passed ");
+        //$("#answer").text(Answers[0]);
+        // in the element with an id of time-left add an h2 saying About 5 Seconds Left!
+        // console log 5 seconds left
+
+      }
+
+
+      function timeUp() {
+        $("#time-left").text("times up");
+        letsPlay = false;
+        // in the element with an id of time-left add an h2 saying Time's Up!
+        // console log done
+
+        // The following line will play the audio file we linked to above.
+        //audio.play();
+
+      }
+
+    </script>
+
+  </body>
+
+</html>
+

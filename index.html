@@ -135,6 +135,7 @@
        $("#answerB").text(Answers[1+(4*questionNumber)]);
        $("#answerC").text(Answers[2+(4*questionNumber)]);
        $("#answerD").text(Answers[3+(4*questionNumber)]);
+       count=20;
        answerChosen = false;
         //}
         /* else
@@ -189,8 +190,12 @@
               $("#message").text("Oh no...");
             count = 0;
             questionNumber++;
-            setTimeout(displayQuestion(),1000*3);
-            //answerChosen = false;
+            if ( questionNumber < maxQuestions )
+            {
+              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              setTimeout(displayQuestion(),1000*3);
+            }
+
           }
        });
 
@@ -211,8 +216,12 @@
               $("#message").text("Oh no...");
             count = 0;
             questionNumber++;
-            setTimeout(displayQuestion(),1000*3);
-            //answerChosen = false;
+            if ( questionNumber < maxQuestions )
+            {
+              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              setTimeout(displayQuestion(),1000*3);
+            }
+
           }
        });
 
@@ -233,8 +242,12 @@
               $("#message").text("Oh no...");
             count = 0;
             questionNumber++;
-            setTimeout(displayQuestion(),1000*3);
-            //answerChosen = false;
+            if ( questionNumber < maxQuestions )
+            {
+              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              setTimeout(displayQuestion(),1000*3);
+            }
+
           }
        });
 

@@ -35,8 +35,12 @@
     </div> <!-- end wrapper -->
 
     <script>
-      var Questions = [ 'question1: what is favorite color?'];
-      var Answers   = [ "A  blue", "B  green", "C  yellow", "D  purple"];
+      var Questions = [ '1 what is favorite color?',
+                        "2 what is favorite food?",
+                        "3 what is favorite soda?" ];
+      var Answers   = [ "A  blue", "B  green", "C  yellow", "D  purple",
+                        "A fries","B chocolate","C ice cream","D donuts",
+                        "A pepsi","B ginger ale","C coke","D 7up"];
       var selectedAnswer = "none";
       var correctAnswer = "D";
       var answerChosen = false;
@@ -53,6 +57,10 @@
 
       function showAnswerButtons() {
         $("#answerSection").attr("class","show"); 
+        $("#answerA").removeClass("selected");
+        $("#answerB").removeClass("selected");
+        $("#answerC").removeClass("selected");
+        $("#answerD").removeClass("selected");
         console.log("showAnswerButtons");      
       } // end showAnswerButtons
 
@@ -117,25 +125,25 @@
 
       function displayQuestion() {
 
-        console.log("questionDisplay");
+       console.log("displayQuestion " + questionNumber);
 
-        if ( !questionNumber ) {
-          $("#questionSection").text(Questions[0]);
-          showAnswerButtons();
+       // if ( !questionNumber ) {
+       $("#questionSection").text(Questions[questionNumber]);
+       showAnswerButtons();
 
-          $("#answerA").text(Answers[0]);
-          $("#answerB").text(Answers[1]);
-          $("#answerC").text(Answers[2]);
-          $("#answerD").text(Answers[3]);
-        }
-        else
+       $("#answerA").text(Answers[0+(4*questionNumber)]);
+       $("#answerB").text(Answers[1+(4*questionNumber)]);
+       $("#answerC").text(Answers[2+(4*questionNumber)]);
+       $("#answerD").text(Answers[3+(4*questionNumber)]);
+       answerChosen = false;
+        //}
+        /* else
         {
           Questions.pop();
           Questions.push("new question");
           $("#questionSection").text(Questions[0]);
           console.log("new question "+Questions);
-
-        }
+        }*/
 
       } // end displayQuestion
 
@@ -157,7 +165,12 @@
               $("#message").text("Oh no...");
             count = 0;
             questionNumber++;
-            setTimeout(displayQuestion(),1000*3);
+            if ( questionNumber < maxQuestions )
+            {
+              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              setTimeout(displayQuestion(),1000*3);
+            }
+            //answerChosen = false;
           } // end answerChosen == false
        });
 
@@ -175,6 +188,9 @@
             else
               $("#message").text("Oh no...");
             count = 0;
+            questionNumber++;
+            setTimeout(displayQuestion(),1000*3);
+            //answerChosen = false;
           }
        });
 
@@ -194,6 +210,9 @@
             else
               $("#message").text("Oh no...");
             count = 0;
+            questionNumber++;
+            setTimeout(displayQuestion(),1000*3);
+            //answerChosen = false;
           }
        });
 
@@ -213,6 +232,9 @@
             else
               $("#message").text("Oh no...");
             count = 0;
+            questionNumber++;
+            setTimeout(displayQuestion(),1000*3);
+            //answerChosen = false;
           }
        });
 

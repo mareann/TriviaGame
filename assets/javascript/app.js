@@ -125,7 +125,11 @@ var stopwatch = {
       }
 
       function showAnswerButtons() {
-        $("#answerSection").attr("class","show"); 
+        $("#answerSection").attr("class","show");
+        $("#answerA").removeClass("selected");
+        $("#answerB").removeClass("selected");
+        $("#answerC").removeClass("selected");
+        $("#answerD").removeClass("selected");
         console.log("showAnswerButtons");      
       }
 
@@ -171,13 +175,20 @@ var stopwatch = {
 
         $("#questionSection").text(Questions[0]);
         showAnswerButtons();
-
+        
         $("#answerA").text(Answers[0]);
         $("#answerB").text(Answers[1]);
         $("#answerC").text(Answers[2]);
         $("#answerD").text(Answers[3]);
       }
-
+/*
+      function unselectButtons() {
+         $("#answerA").removeClass("selected");
+         $("#answerB").removeClass("selected");
+         $("#answerC").removeClass("selected");
+         $("#answerD").removeClass("selected");
+      }
+*/
       function playGame() {
 
        $("#answerA").click(function() {

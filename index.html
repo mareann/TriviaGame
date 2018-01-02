@@ -7,20 +7,18 @@
     <meta charset="UTF-8">
     <title>Trivia Game</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/countdown.css">
-    <link rel="stylesheet" href="assets/javascript/app.js">
-    <!-- jQuery -->
+<!--    <link rel="stylesheet"  type="text/javascript" href="assets/javascript/app.js">
+    jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
 
   <body>
-<!-- * Make a page with a a simple timer of 15 seconds.
-* Have it send an alert when 5 seconds has passed, 10 seconds has passed and when the time is up. -->
+
     <div id="wrapper">
       <h1>TRIVIA TIME</h1>
-    
+
+      <div id="name"></div>    
       <div id="time-left"></div>
-      <div id="name"></div>
       <div id="message"></div>
 
       <div id="startSection">
@@ -40,7 +38,11 @@
       var Questions = [ 'question1: what is favorite color?'];
       var Answers   = [ "A  blue", "B  green", "C  yellow", "D  purple"];
       var selectedAnswer = "none";
+      var correctAnswer = "D";
       var answerChosen = false;
+      var count = 20;
+      var questionNumber = 0;
+      var maxQuestions = 3;
 
       hideAnswerButtons();
 
@@ -52,26 +54,29 @@
       function showAnswerButtons() {
         $("#answerSection").attr("class","show"); 
         console.log("showAnswerButtons");      
-      }
+      } // end showAnswerButtons
 
       var userName = prompt("What's your name?");
       $("#name").text("Hi " + userName);
       var letsPlay = false;
 
-      $("#time-left").text("15 seconds per question");
+      $("#time-left").text("20 seconds per question");
       $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
       $("#questionSection").text("**** TRIVIA QUESTIONS ****");
       $("#start").click( function() { 
-         $("#time-left").text("15 seconds left");
-         letsPlay=true; 
-         console.log("START letsPlay " + letsPlay);
-         if  ( letsPlay ) {
-            $("#message").text("SELECT YOUR ANSWER BELOW");
-            displayTimeLeft();
-            letsPlay = playGame();
+
+        $("#time-left").text(count +" seconds left");
+        letsPlay=true; 
+        console.log("START letsPlay " + letsPlay);
+        if  ( letsPlay ) {
+          $("#message").text("SELECT YOUR ANSWER BELOW");
+          displayTimeLeft();
+          letsPlay = playGame();
         }
+
         $("#start").attr("disabled","true");
         $("#start").attr("class","disabled");
+
       });
 
       console.log("letsPlay before " + letsPlay);
@@ -82,24 +87,57 @@
 
         // display question
         setTimeout(displayQuestion,10);
-        setTimeout(timeUp,1000*15);
-        setTimeout(tenSeconds,1000*10);
-        setTimeout(fiveSeconds,1000*5); //dont need () inside setTimeout
+//        setTimeout(timeUp,1000*20);
+        setTimeout(countSeconds,1000);
+      //  setTimeout(tenSeconds,1000*10);
+      //  setTimeout(fiveSeconds,1000*5); //dont need () inside setTimeout
 
       }
+
+      function countSeconds() {
+        if ( count ) {
+          count--;
+          $("#time-left").text(count + " seconds left"); 
+          console.log("count is " + count);
+          setTimeout(countSeconds,1000);
+        }
+        else
+        {
+          if ( !answerChosen ) {
+            timeUp();
+            console.log("times up count " + count);
+          }
+          else
+          {
+            $("#time-left").text(count);
+            console.log("count seconds answerChosen "+answerChosen);
+          }
+        }
+      } // end countSeconds
 
       function displayQuestion() {
 
         console.log("questionDisplay");
 
-        $("#questionSection").text(Questions[0]);
-        showAnswerButtons();
+        if ( !questionNumber ) {
+          $("#questionSection").text(Questions[0]);
+          showAnswerButtons();
 
-        $("#answerA").text(Answers[0]);
-        $("#answerB").text(Answers[1]);
-        $("#answerC").text(Answers[2]);
-        $("#answerD").text(Answers[3]);
-      }
+          $("#answerA").text(Answers[0]);
+          $("#answerB").text(Answers[1]);
+          $("#answerC").text(Answers[2]);
+          $("#answerD").text(Answers[3]);
+        }
+        else
+        {
+          Questions.pop();
+          Questions.push("new question");
+          $("#questionSection").text(Questions[0]);
+          console.log("new question "+Questions);
+
+        }
+
+      } // end displayQuestion
 
       function playGame() {
 
@@ -111,7 +149,16 @@
             $("#message").text("You selected A");
             $("#answerA").attr("selected",true);
             $("#answerA").attr("class","selected");
-        }
+            if ( selectedAnswer === correctAnswer )
+              {
+                $("#message").text("YOU ARE CORRECT!");
+              }
+            else
+              $("#message").text("Oh no...");
+            count = 0;
+            questionNumber++;
+            setTimeout(displayQuestion(),1000*3);
+          } // end answerChosen == false
        });
 
        $("#answerB").click(function() {
@@ -121,6 +168,13 @@
             $("#message").text("You selected B");
             $("#answerB").attr("class","selected");
             console.log("playGame " + "B selected " + selectedAnswer);
+            if ( selectedAnswer === correctAnswer )
+              {
+                $("#message").text("YOU ARE CORRECT!");
+              }
+            else
+              $("#message").text("Oh no...");
+            count = 0;
           }
        });
 
@@ -133,6 +187,13 @@
             $("#answerC").attr("selected",true);
             $("#answerC").attr("class","selected");
             console.log("playGame " + "C selected " + selectedAnswer);
+            if ( selectedAnswer === correctAnswer )
+              {
+                $("#message").text("YOU ARE CORRECT!");
+              }
+            else
+              $("#message").text("Oh no...");
+            count = 0;
           }
        });
 
@@ -145,14 +206,23 @@
             $("#answerD").attr("selected",true);
             $("#answerD").attr("class","selected");
             console.log("playGame " + "D selected " + selectedAnswer);
+            if ( selectedAnswer === correctAnswer )
+              {
+                $("#message").text("YOU ARE CORRECT!");
+              }
+            else
+              $("#message").text("Oh no...");
+            count = 0;
           }
        });
 
        console.log("playGame " + "answer selected " + selectedAnswer);
 
        return false;
-      }
 
+      } // end playGame
+
+/*
       function fiveSeconds() {
         //var temp = "";
         $("#time-left").text("10 seconds left"); 
@@ -168,7 +238,7 @@
         // console log 5 seconds left
 
       }
-
+*/
 
       function timeUp() {
         $("#time-left").text("times up");

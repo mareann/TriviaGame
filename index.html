@@ -20,6 +20,7 @@
    <!--   <div id="name"></div>  -->  
       <div id="time-left"></div>
       <div id="message"></div>
+      <div id="message2"></div>
 
       <div id="startSection">
         <button id="start">START</button>
@@ -82,6 +83,7 @@
       function displayFirstMessages() {
       $("#time-left").text("20 seconds per question");
       $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
+      $("#message2").text("Good Luck!!!");
       $("#questionSection").text("**** TRIVIA QUESTIONS ****");
       }
 // *********************************************************
@@ -92,7 +94,7 @@
         letsPlay=true; 
         console.log("START letsPlay " + letsPlay);
         if  ( letsPlay ) {
-          $("#message").text("SELECT YOUR ANSWER BELOW");
+          $("#message2").text("SELECT YOUR ANSWER BELOW");
           displayTimeLeft();
           letsPlay = playGame();
           console.log("playGame returns letsPlay "+letsPlay);
@@ -103,11 +105,11 @@
 
       });
 // *********************************************************
-      console.log("letsPlay before " + letsPlay);
+      //console.log("letsPlay before " + letsPlay);
 
       function displayTimeLeft() {
       
-        console.log( "displayTimeLeft letsPlay " + letsPlay);
+        //console.log( "displayTimeLeft letsPlay " + letsPlay);
         console.log( "displayTimeLeft question "+questionNumber+" count "+count);
 
         // display question
@@ -143,7 +145,7 @@
           console.log("2 countSeconds count is " + count+ " answerChosen "+answerChosen);
           if ( !answerChosen )
           {
-            console.log("cs if no answer call cs again");
+            //console.log("cs if no answer call cs again");
             t2 = setTimeout(countSeconds,1000);
           }
           else
@@ -158,20 +160,46 @@
             timeUp();
             console.log("cs times up count " + count);
           }
-          else
-          {
+          //else
+          //{
             //displayTimeLeft();
-            $("#time-left").text(count);
-            console.log("cs count "+count+" update time-left answerChosen "+answerChosen);
-          }
+            //$("#time-left").text(count);
+            //console.log("cs count "+count+" update time-left answerChosen "+answerChosen);
+          //}
         }
       } // end countSeconds
+// *********************************************************
+      function updateCounts() {
+          if ( selectedAnswer === correctAnswer[questionNumber] )
+            correctCount++;
+          else
+            wrongCount++;
+      }
+// *********************************************************
+      function displayAnswerText() {
+        $("#message").text("You selected "+selectedAnswer);
+            $("#answer"+selectedAnswer).attr("selected",true);
+            $("#answer"+selectedAnswer).attr("class","selected");
+            if ( selectedAnswer === correctAnswer[questionNumber] )
+              {
+                $("#time-left").text("YOU ARE CORRECT!");
+                $("#message").text("You chose "+selectedAnswer);
+                correctCount++;
+              }
+            else
+            {
+              $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
+              $("#message").text("Better luck next question");
+              wrongCount++;
+            }
+
+      }
 // *********************************************************
       function displayQuestion() {
 
        console.log("displayQuestion " + questionNumber);
-       $("#message").text("Question "+questionNumber);
-
+       $("#message").text("*** Question "+(questionNumber+1)+" ***");
+       $("message2").text("*** SELECT ANSWER BELOW ***")
        $("#questionSection").text(Questions[questionNumber]);
        showAnswerButtons();
 
@@ -200,33 +228,39 @@
             selectedAnswer = "A";
             console.log("playGame " + "A selected " + selectedAnswer);
             answerChosen = true;
+            displayAnswerText();
+            updateCounts();
+            /*
             $("#message").text("You selected A");
             $("#answerA").attr("selected",true);
             $("#answerA").attr("class","selected");
             if ( selectedAnswer === correctAnswer[questionNumber] )
               {
+                $("#time-left").text("YOU ARE CORRECT!");
                 $("#message").text("YOU ARE CORRECT!");
                 correctCount++;
               }
             else
             {
-              $("#message").text("Oh no...");
+              $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
+              $("#message").text("Better luck next question");
               wrongCount++;
-            }
+            }*/
             count = 0;
             questionNumber++;
             if ( questionNumber < maxQuestions )
             {
               console.log("A dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
               //setTimeout(displayQuestion,1000*7);
+              // wait 5 seconds before displaying next question
               t1 = setTimeout(displayTimeLeft,1000*5);
             }
-            else
-            {
+            //else
+            //{
               //console.log("A clearTimeout");
              // clearTimeout(t1);
-            }
-            console.log("a  letsPlay "+letsPlay);
+            //}
+            //console.log("a  letsPlay "+letsPlay);
             
           } // end answerChosen == false
        });
@@ -235,25 +269,32 @@
           if ( answerChosen == false ) {
             selectedAnswer = "B";
             answerChosen = true;
-            $("#message").text("You selected B");
-            $("#answerB").attr("class","selected");
-            console.log("playGame " + "B selected " + selectedAnswer);
-            if ( selectedAnswer === correctAnswer[questionNumber] )
+            displayAnswerText();
+            updateCounts();
+           // $("#message").text("You selected B");
+           // $("#answerB").attr("class","selected");
+            //console.log("playGame " + "B selected " + selectedAnswer);
+            /*if ( selectedAnswer === correctAnswer[questionNumber] )
               {
-                $("#message").text("YOU ARE CORRECT!");
+                $("#time-left").text("YOU ARE CORRECT!");
+                $("#message").text("You chose "+selectedAnswer);
                 correctCount++;
               }
             else
             {
-              $("#message").text("Oh no...");
+              $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
+             
+              $("#message").text("You chose "+selectedAnswer);
               wrongCount++;
-            }
+            } */
             count = 0;
             questionNumber++;
             if ( questionNumber < maxQuestions )
             {
-              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
-              setTimeout(displayQuestion,1000*7);
+            console.log("B dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              t1 = setTimeout(displayTimeLeft,1000*5);
+              //console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              //setTimeout(displayQuestion,1000*7);
              // setTimeout(displayTimeLeft,1000*7);
             }
 
@@ -265,6 +306,9 @@
           if ( answerChosen == false ) {
             selectedAnswer = "C";
             answerChosen = true;
+            displayAnswerText();
+            updateCounts();
+            /*
             $("#message").text("You selected C");
             $("#answerC").attr("selected",true);
             $("#answerC").attr("class","selected");
@@ -276,16 +320,16 @@
               }
             else
             {
-              $("#message").text("Oh no...");
+              $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
+              $("#message").text("You chose "+selectedAnswer);
               wrongCount++;
-            }
+            }*/
             count = 0;
             questionNumber++;
             if ( questionNumber < maxQuestions )
             {
-              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
-              setTimeout(displayQuestion,1000*7);
-              //setTimeout(displayTimeLeft,1000*7);
+            console.log("C dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              t1 = setTimeout(displayTimeLeft,1000*5);
             }
 
           }
@@ -296,36 +340,38 @@
           if ( answerChosen == false ) {
             selectedAnswer = "D";
             answerChosen = true;
+            displayAnswerText();
+            updateCounts();
+            /*
             $("#message").text("You selected D");
             $("#answerD").attr("selected",true);
             $("#answerD").attr("class","selected");
             console.log("playGame " + "D selected " + selectedAnswer);
             if ( selectedAnswer === correctAnswer[questionNumber] )
               {
+                $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
                 $("#message").text("YOU ARE CORRECT!");
                 correctCount++;
               }
             else
-            {
+            {             
+              $("#message").text("Better luck next question");
               $("#message").text("Oh no...");
               wrongCount++;
-            }
+            }*/
             count = 0;
             questionNumber++;
             if ( questionNumber < maxQuestions )
             {
-              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
-              t1 = setTimeout(displayQuestion,1000*7);
-             // setTimeout(displayTimeLeft,1000*7);
+            console.log("D dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              t1 = setTimeout(displayTimeLeft,1000*5);
             }
-            else
-              clearTimeout(t1);
-           // else
+           
     
            
           }
        });
-          displayCounts();
+       displayCounts();
        console.log("playGame " + "answer selected " + selectedAnswer);
 
        return false;
@@ -358,7 +404,7 @@
             //$("#message").text("You selected C");
             //$("#answerC").attr("selected",true);
             //$("#answerC").attr("class","selected");
-            console.log("timeUp " + "selected " + selectedAnswer);
+            //console.log("timeUp " + "selected " + selectedAnswer);
             $("#message").text("Oh no... correct Answer is "+correctAnswer[questionNumber]);
             //count = 0;
             questionNumber++;
@@ -370,7 +416,7 @@
             }
 
                 
-        console.log("timeUp letsPlay "+letsPlay);
+        //console.log("timeUp letsPlay "+letsPlay);
         // in the element with an id of time-left add an h2 saying Time's Up!
         // console log done
 

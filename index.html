@@ -49,20 +49,21 @@
       var maxQuestions = 3;
       var wrongCount = 0;
       var correctCount = 0;
+      var t1 = 0, t1 = 0, t3 = 0;
 
       hideAnswerButtons();
-
+// *********************************************************
       function displayCounts() {
         console.log("correctCount "+correctCount);
         console.log("wrongCount "+wrongCount);
         console.log("number of questions "+maxQuestions);
       }
-
+// **********************************************************
       function hideAnswerButtons() {
         $("#answerSection").attr("class","hide");
         console.log("hideAnswerButtons");
       }
-
+// *********************************************************
       function showAnswerButtons() {
         $("#answerSection").attr("class","show"); 
         $("#answerA").removeClass("selected");
@@ -73,17 +74,17 @@
         setTimeout(countSeconds,1000);
         console.log("showAnswerButtons");      
       } // end showAnswerButtons
-
+// *********************************************************
       //var userName = prompt("What's your name?");
       //$("#name").text("Hi " + userName);
       var letsPlay = false;
-      
+// *********************************************************      
       function displayFirstMessages() {
       $("#time-left").text("20 seconds per question");
       $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
       $("#questionSection").text("**** TRIVIA QUESTIONS ****");
       }
-
+// *********************************************************
       displayFirstMessages();
       $("#start").click( function() { 
 
@@ -101,7 +102,7 @@
         $("#start").attr("class","disabled");
 
       });
-
+// *********************************************************
       console.log("letsPlay before " + letsPlay);
 
       function displayTimeLeft() {
@@ -112,16 +113,19 @@
         // display question
         if ( !questionNumber )
         {
-           setTimeout(displayQuestion,10);
-           setTimeout(countSeconds,1000);
-           console.log("countSeconds 1");
+           t3 = setTimeout(displayQuestion,10);
+           t2 = setTimeout(countSeconds,1000);
+           console.log("dtl countSeconds 1cs dq0");
         }
         else
         {
-           setTimeout(countSeconds,1000);
-           setTimeout(displayQuestion,1000*7);
+           console.log("dtl t2 t3 clearTimeout");
+           clearTimeout(t2);
+           clearTimeout(t3);
+           t2 = setTimeout(countSeconds,1000);
+           t3 = setTimeout(displayQuestion,1000);
            //setTimeout(countSeconds,1000*7);
-           console.log("countSeconds 7");          
+           console.log("dtl countSeconds cs1 dq1");          
         }
 //        setTimeout(timeUp,1000*20);
         //setTimeout(countSeconds,1000);
@@ -129,31 +133,40 @@
       //  setTimeout(fiveSeconds,1000*5); //dont need () inside setTimeout
 
       }
-
+// *********************************************************
       function countSeconds() {
         // if time left
          // console.log("1countSeconds count is " + count);        
         if ( count ) {
           count--;
           $("#time-left").text(count + " seconds left"); 
-          console.log("2countSeconds count is " + count);
-          setTimeout(countSeconds,1000);
+          console.log("2 countSeconds count is " + count+ " answerChosen "+answerChosen);
+          if ( !answerChosen )
+          {
+            console.log("cs if no answer call cs again");
+            t2 = setTimeout(countSeconds,1000);
+          }
+          else
+          {
+            console.log("cs clearTimeout t3");
+            clearTimeout(t3);
+          }
         }
         else
         {
           if ( !answerChosen ) {
             timeUp();
-            console.log("times up count " + count);
+            console.log("cs times up count " + count);
           }
           else
           {
             //displayTimeLeft();
             $("#time-left").text(count);
-            console.log("count seconds answerChosen "+answerChosen);
+            console.log("cs count "+count+" update time-left answerChosen "+answerChosen);
           }
         }
       } // end countSeconds
-
+// *********************************************************
       function displayQuestion() {
 
        console.log("displayQuestion " + questionNumber);
@@ -179,7 +192,7 @@
         }*/
 
       } // end displayQuestion
-
+// *********************************************************
       function playGame() {
 
        $("#answerA").click(function() {
@@ -204,12 +217,17 @@
             questionNumber++;
             if ( questionNumber < maxQuestions )
             {
-              console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
-              setTimeout(displayQuestion,1000*7);
-             // setTimeout(displayTimeLeft,1000*7);
+              console.log("A dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
+              //setTimeout(displayQuestion,1000*7);
+              t1 = setTimeout(displayTimeLeft,1000*5);
+            }
+            else
+            {
+              //console.log("A clearTimeout");
+             // clearTimeout(t1);
             }
             console.log("a  letsPlay "+letsPlay);
-            //answerChosen = false;
+            
           } // end answerChosen == false
        });
 
@@ -297,15 +315,17 @@
             if ( questionNumber < maxQuestions )
             {
               console.log("questionNumber ",questionNumber," maxQuestions " + maxQuestions);
-              setTimeout(displayQuestion,1000*7);
+              t1 = setTimeout(displayQuestion,1000*7);
              // setTimeout(displayTimeLeft,1000*7);
             }
+            else
+              clearTimeout(t1);
            // else
-              displayCounts();
+    
            
           }
        });
-
+          displayCounts();
        console.log("playGame " + "answer selected " + selectedAnswer);
 
        return false;
@@ -334,7 +354,7 @@
         $("#time-left").text("times up");
        // letsPlay = false;
         selectedAnswer = 'N';
-        answerChosen = true;
+     //test   answerChosen = true;
             //$("#message").text("You selected C");
             //$("#answerC").attr("selected",true);
             //$("#answerC").attr("class","selected");
@@ -345,7 +365,7 @@
             if ( questionNumber < maxQuestions )
             {
               console.log("timeUp question ",questionNumber," maxQuestions " + maxQuestions);
-              setTimeout(displayQuestion,1000*7);
+              //test setTimeout(displayQuestion,1000*7);
               setTimeout(displayTimeLeft,1000);
             }
 

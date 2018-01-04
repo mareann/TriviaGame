@@ -61,6 +61,7 @@
         //console.log("START letsPlay " + letsPlay);
         if  ( letsPlay ) {
           $("#message2").text("SELECT YOUR ANSWER BELOW");
+          secondCount=timeToAnswer; //test
           displayTimeLeft();
           letsPlay = playGame();
           //console.log("playGame returns letsPlay "+letsPlay);
@@ -81,8 +82,10 @@
         // display question
         if ( !questionNumber )
         {
-           t3 = setTimeout(displayQuestion,10);
+           //t3 = setTimeout(displayQuestion,10);
+           t3 = setTimeout(displayQuestion,900);//test
            t2 = setTimeout(countSeconds,1000);
+           //t3 = setTimeout(displayQuestion,1000);
            console.log("dtl countSeconds 1cs dq0 questionNumber "+questionNumber);
         }
         else
@@ -90,8 +93,12 @@
            console.log("dtl questionNumber "+questionNumber+" t2 t3 clearTimeout");
            clearTimeout(t2);
            clearTimeout(t3);
-           t2 = setTimeout(countSeconds,1000);
-           t3 = setTimeout(displayQuestion,1000);
+           if ( questionNumber < maxQuestions )
+           {
+             t3 = setTimeout(displayQuestion,900);//test
+             t2 = setTimeout(countSeconds,1000);
+           }
+           //t3 = setTimeout(displayQuestion,1000);
            //setTimeout(countSeconds,1000*7);
            //console.log("dtl countSeconds cs1 dq1");          
         }
@@ -104,7 +111,8 @@
 // *********************************************************
       function countSeconds() {
         // if time left
-         // console.log("1countSeconds count is " + count);        
+         // console.log("1countSeconds count is " + count); 
+       if ( questionNumber < maxQuestions ) {       
         if ( secondCount ) {
           secondCount--;
           $("#time-left").text(secondCount + " seconds left");
@@ -117,18 +125,19 @@
           }
           else
           {
-            console.log("cs clearTimeout t3");
+            console.log("cs clearTimeout t3 count "+secondCount + " question "+questionNumber+" answer "+answerChosen);
             clearTimeout(t3);
           }
-        }
+        } // end secondCount
+
         else
         {
          if ( !answerChosen ) {
             //test
             //answerChosen=true;
-            console.log("cs before timeUp secondcount "+secondCount);
+            console.log("cs NA before timeUp secondcount "+secondCount);
             timeUp();
-            console.log("cs times up secondcount " + secondCount);
+            console.log("cs NA times up secondcount " + secondCount);
           }
           //test
           //if ( questionNumber < maxQuestions)
@@ -140,7 +149,9 @@
             //console.log("cs count "+count+" update time-left answerChosen "+answerChosen);
           //}
         }
-      } // end countSeconds
+
+    } // end questionNumber < maxQuestions
+  } // end countSeconds
 // *********************************************************
      // function updateCounts() {
 
@@ -176,11 +187,14 @@
             else
             {
               $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
+              console.log("aa Oh no... Correct Answer was "+correctAnswer[questionNumber]);
                 if ( (wrongCount + correctCount) < maxQuestions )
                 {
                    wrongCount++;
-                   console.log("aa increase wrongCount "+wrongCount);
-                }           
+                   console.log("aa increase wrongCount new "+wrongCount);
+                } 
+                else
+                  console.log("aa do not increase wrongCount???");          
             }
 
               displayCounts();            
@@ -190,7 +204,7 @@
             //console.log("AA secondCount "+secondCount);
             console.log("AA before set count to 0 secondcount is "+secondCount);
             //test
-            secondCount = 0;
+            //secondCount = 0;
             //console.log("aa inc questionNumber");
             //questionNumber++;
             //console.log("aa before questionNumber "+questionNumber);
@@ -212,6 +226,7 @@
 // *********************************************************
       function displayQuestion() {
 
+      if ( questionNumber < maxQuestions ) {
        console.log("displayQuestion " + questionNumber);
        $("#message").text("*** Question "+(questionNumber+1)+" ***");
        $("message2").text("*** SELECT ANSWER BELOW ***")
@@ -223,9 +238,11 @@
        $("#answerC").text(Answers[2+(4*questionNumber)]);
        $("#answerD").text(Answers[3+(4*questionNumber)]);
        secondCount=timeToAnswer;
+     }
+
        //setTimeout(displayTimeLeft,10);
        answerChosen = false;
-       console.log("dq set answerChosen to false");
+       console.log("dq set answerChosen to false set secondCount "+secondCount);
 
       } // end displayQuestion
 // *********************************************************      
@@ -250,27 +267,32 @@
               setTimeout(displayTimeLeft,1000);
               //test
               wrongCount++;
-              console.log("tu q increase wrongCount "+wrongCount);
+              console.log("tu q increase wrongCount new "+wrongCount);
               //displayCounts();
               //wrongCount++;
               //test
               //test
               //console.log("tu before inc questionNumber "+questionNumber);
-              questionNumber++;
-              console.log("tu q inc questionNumber new "+questionNumber);
+              //testif ( questionNumber < (maxQuestions-1))
+              //{
+                questionNumber++;     
+                console.log("tu q inc questionNumber new "+questionNumber);
+              //}
               //displayCounts();
             }
             else
-            {
+              console.log("tu do not increase wrongCount or questionNumber");
+         //test   else
+         //   {
               //test
               //wrongCount++;
               //test
               console.log("tu secondcount "+secondCount+" question "+questionNumber);
-              //count=timeToAnswer;
-              //console.log("tu wc reset count "+count);
+              secondCount=timeToAnswer;
+              console.log("tu reset count "+secondCount);
               //console.log("tu increase wrongCount "+wrongCount+ " questionNumber "+questionNumber);
               //displayCounts();
-            }
+         //   }
                 
         //console.log("timeUp letsPlay "+letsPlay);
 

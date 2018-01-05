@@ -12,9 +12,10 @@
       var maxQuestions = 3;
       var wrongCount = 0;
       var correctCount = 0;
-      var t1 = 0, t1 = 0, t3 = 0;
+      var t1 = 0, t2 = 0, t3 = 0;
       var timeToAnswer = 10; //20;
       var timeBetweenQuestions = 3*1000;
+      var gameComplete = false;
 
       hideAnswerButtons();
 // *********************************************************
@@ -23,6 +24,7 @@
         console.log("wrongCount "+ wrongCount);
         console.log("number of questions "+ maxQuestions);
         console.log("questionNumber "+questionNumber); 
+        console.log("gameComplete "+gameComplete);
       }
 // **********************************************************
       function hideAnswerButtons() {
@@ -53,7 +55,9 @@
       $("#questionSection").text("**** TRIVIA QUESTIONS ****");
       }
 // *********************************************************
+// *********************************************************
       displayFirstMessages();
+      gameComplete = false;
       $("#start").click( function() { 
 
         $("#time-left").text(secondCount +" seconds left");
@@ -77,7 +81,7 @@
       function displayTimeLeft() {
       
         //console.log( "displayTimeLeft letsPlay " + letsPlay);
-        console.log( "**** dtl question "+questionNumber+" secondcount "+secondCount);
+        console.log( "**** dtl question "+(questionNumber+1)+" secondcount "+secondCount);
 
         // display question
         if ( !questionNumber )
@@ -98,6 +102,12 @@
              t3 = setTimeout(displayQuestion,900);//test
              t2 = setTimeout(countSeconds,1000);
            }
+           //else
+           //{
+            //gameComplete = true;
+            //console.log("dtl set gameComplete q is "+questionNumber);
+           //}
+
            //t3 = setTimeout(displayQuestion,1000);
            //setTimeout(countSeconds,1000*7);
            //console.log("dtl countSeconds cs1 dq1");          
@@ -112,6 +122,11 @@
       function countSeconds() {
         // if time left
          // console.log("1countSeconds count is " + count); 
+       if ( gameComplete )
+       {
+        console.log("cs gc return");
+        return;
+       }
        if ( questionNumber < maxQuestions ) {       
         if ( secondCount ) {
           secondCount--;
@@ -125,8 +140,10 @@
           }
           else
           {
-            console.log("cs clearTimeout t3 count "+secondCount + " question "+questionNumber+" answer "+answerChosen);
+            console.log("cs clearTimeout t3 dc count "+secondCount + " question "+questionNumber+" answer "+answerChosen);
             clearTimeout(t3);
+            //gameComplete = true;
+            displayCounts();
           }
         } // end secondCount
 
@@ -177,10 +194,11 @@
               {
                 $("#time-left").text("YOU ARE CORRECT!");
                 $("#message").text("You chose "+selectedAnswer);
-                if ( questionNumber < (maxQuestions-1) )
+                //test if ( questionNumber < (maxQuestions-1) )
+                if ( questionNumber < (maxQuestions) )
                 {
                    correctCount++;
-                  // console.log("aa increase correctCount"+correctCount);
+                   console.log("aa increase correctCount new"+correctCount);
                  }
                 //displayCounts();
               }
@@ -197,12 +215,18 @@
                   console.log("aa do not increase wrongCount???");          
             }
 
-              displayCounts();            
+          if ( (wrongCount + correctCount) >= maxQuestions)
+          {
+            console.log("AA set gameComplete");
+            gameComplete = true;
+          }
+
+          displayCounts();            
     
 
      // }
             //console.log("AA secondCount "+secondCount);
-            console.log("AA before set count to 0 secondcount is "+secondCount);
+            //console.log("AA before set count to 0 secondcount is "+secondCount);
             //test
             //secondCount = 0;
             //console.log("aa inc questionNumber");
@@ -215,6 +239,7 @@
             //  console.log("A dtl 5 questionNumber ",questionNumber," maxQuestions " + maxQuestions);
               //setTimeout(displayQuestion,1000*7);
               // wait before displaying next question
+              console.log("aa call dtl ");
               t1 = setTimeout(displayTimeLeft,timeBetweenQuestions);
             }
             //test
@@ -222,6 +247,8 @@
             {
               displayCounts();
             }*/
+            console.log("aa end before dc ");
+            displayCounts();
       }
 // *********************************************************
       function displayQuestion() {
@@ -239,6 +266,12 @@
        $("#answerD").text(Answers[3+(4*questionNumber)]);
        secondCount=timeToAnswer;
      }
+   //  else
+   //  {
+       
+      // gameComplete = true;
+      
+   //  }
 
        //setTimeout(displayTimeLeft,10);
        answerChosen = false;
@@ -275,13 +308,23 @@
               //console.log("tu before inc questionNumber "+questionNumber);
               //testif ( questionNumber < (maxQuestions-1))
               //{
-                questionNumber++;     
+                questionNumber++;
+                if ( questionNumber >= maxQuestions)
+                {
+                 gameComplete=true;
+                 console.log("tu set gameComplete before dc");    
+                }
                 console.log("tu q inc questionNumber new "+questionNumber);
+               
               //}
-              //displayCounts();
+              displayCounts();
             }
             else
-              console.log("tu do not increase wrongCount or questionNumber");
+            {
+              gameComplete = true;
+              console.log("tu set gameComplete do not increase wrongCount or questionNumber");
+              displayCounts();
+            }
          //test   else
          //   {
               //test
@@ -291,7 +334,7 @@
               secondCount=timeToAnswer;
               console.log("tu reset count "+secondCount);
               //console.log("tu increase wrongCount "+wrongCount+ " questionNumber "+questionNumber);
-              //displayCounts();
+          displayCounts();
          //   }
                 
         //console.log("timeUp letsPlay "+letsPlay);

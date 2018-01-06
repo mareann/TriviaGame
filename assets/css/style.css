@@ -46,8 +46,21 @@ h1 {
    display: none;
 }
 
-.show {
-	display: block;
+li {
+  list-style-type: none;
+}
+
+ul {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+#resultsHeader {
+  color: red;
+  font-weight: bold;
+  text-align: center;
 }
 
 .selected {

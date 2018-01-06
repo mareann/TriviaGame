@@ -9,23 +9,28 @@ $(document).ready(function() {
                         "A pepsi","B ginger ale","C coke","D 7up"];
       var selectedAnswer = "none";
       var correctAnswer = ['A','B','C','none'];
+      var randomQuestions = [99,99,99];
+      var questionOptions = [0,1,2];
       var answerChosen = false;
       var secondCount = 0;
       var questionNumber = 0;
       var maxQuestions = 3;
       var wrongCount = 0;
       var correctCount = 0;
+      var unansweredCount = 0;
       var t1 = 0, t2 = 0, t3 = 0;
       var timeToAnswer = 10; //20;
       var timeBetweenQuestions = 3*1000;
+      var timeBetweenGames = 10*1000;
       var gameComplete = false;
       var debug = false;
 
-      hideAnswerButtons();
+     // hideAnswerButtons();
 // *********************************************************
       function displayCounts() {
         console.log("correctCount "+ correctCount);
         console.log("wrongCount "+ wrongCount);
+        console.log("unansweredCount "+unansweredCount);
         console.log("number of questions "+ maxQuestions);
         console.log("questionNumber "+questionNumber); 
         console.log("gameComplete "+gameComplete);
@@ -33,9 +38,11 @@ $(document).ready(function() {
 
       function displayFinalCounts() {
         hideAnswerButtons();
-        $("#resultsHeader").text("Out of "+maxQuestions+" questions your counts are:");
-        $("#finalWrongCount").text("Wrong: "+wrongCount);
-        $("#finalCorrectCount").text("Correct: "+correctCount);
+        $("#resultsSection").removeClass("hide");
+        $("#resultsHeader").text("From "+maxQuestions+" questions");
+        $("#finalCorrectCount").text("Correct Answers: "+correctCount);        
+        $("#finalWrongCount").text("Wrong Answers: "+wrongCount);
+        $("#finalUnansweredCount").text("Unanswered: "+unansweredCount);
       }
 // **********************************************************
       function hideAnswerButtons() {
@@ -67,14 +74,52 @@ $(document).ready(function() {
       }
 // *********************************************************
 // *********************************************************
+      // For each iteration, generate a new random number between 1 and 9.
+      //var random = Math.floor(Math.random() * 9) + 1;
+/*      var random = 77;
+      for ( var j=0; j < maxQuestions;j++)
+      {
+        randomQuestions[j]=88;
+        console.log("r is "+randomQuestions[j]);
+      }
+      for ( var i=0; i < maxQuestions; i++ )
+      {
+       // console.log("i "+i+" "+random+" "+randomQuestions[0]+" "+
+       //         randomQuestions[1]+" "+
+         //       random != randomQuestions[2]+" "+
+           //     random < maxQuestions);
 
+      //  while ( random != questionOptions[0] &&
+        //        random != questionOptions[1] &&
+          //      random != questionOptions[2] &&
+        while ( random >= maxQuestions )
+        {
+          random = Math.floor(Math.random() * 3) + 1;
+          console.log("random is "+random);
+          if (random == questionOptions[0])
+          {
+            if ( random )
+           randomQuestions[i] = random;
+          }
+          else if
+              (random == questionOptions[1])
+            randomQuestions[i] = random;
+          else if
+              (random == questionOptions[2])
+            randomQuestions[i] = random;
+        }
+        random=77;
+        console.log("random["+i+"] "+randomQuestions[i]);
+      }
+*/
+      hideAnswerButtons();
       displayFirstMessages();
       gameComplete = false;
       $("#start").click( function() { 
-        $("#message").text("START");
-        $("#time-left").text(secondCount +" seconds left");
-        letsPlay=true; 
-        console.log("START letsPlay " + letsPlay);
+      $("#message").text("START");
+      $("#time-left").text("Time Remaining: "+secondCount +" seconds");
+      letsPlay=true; 
+      console.log("START letsPlay " + letsPlay);
         if  ( letsPlay ) {
           $("#message2").text("SELECT YOUR ANSWER BELOW");
           secondCount=timeToAnswer; //test
@@ -157,7 +202,9 @@ $(document).ready(function() {
        if ( questionNumber < maxQuestions ) {       
         if ( secondCount ) {
           secondCount--;
-          $("#time-left").text(secondCount + " seconds left");
+          $("#time-left").text("Time Remaining: "+secondCount +" seconds");
+
+          //$("#time-left").text(secondCount + " seconds left");
           if ( secondCount < 4) 
           {
             if ( debug )
@@ -173,8 +220,7 @@ $(document).ready(function() {
             if ( debug )
             console.log("cs clearTimeout t3 dc count "+secondCount + " question "+questionNumber+" answer "+answerChosen);
             clearTimeout(t3);
-            //gameComplete = true;
-            displayCounts();
+            //displayCounts();
           }
         } // end secondCount
 
@@ -189,17 +235,7 @@ $(document).ready(function() {
 
     } // end questionNumber < maxQuestions
   } // end countSeconds
-// *********************************************************
-     // function updateCounts() {
 
-   /*       if ( selectedAnswer === correctAnswer[questionNumber] )
-            correctCount++;
-          else
-            wrongCount++;
-*/
-       //   if ( questionNumber === maxQuestions )
-      //      displayCounts();
-   //   }
 // *********************************************************
       function AfterAnswer() {
         answerChosen = true;
@@ -212,7 +248,7 @@ $(document).ready(function() {
              //  {
             if ( selectedAnswer === correctAnswer[questionNumber] )
               {
-                $("#time-left").text("YOU ARE CORRECT!");
+                $("#time-left").text("WOOHOO! YOU ARE CORRECT!");
                 $("#message").text("You chose "+selectedAnswer);
                 //test if ( questionNumber < (maxQuestions-1) )
                 if ( questionNumber < (maxQuestions) )
@@ -227,10 +263,10 @@ $(document).ready(function() {
             {
               $("#time-left").text("Oh no... Correct Answer was "+correctAnswer[questionNumber]);
               console.log("aa Oh no... Correct Answer was "+correctAnswer[questionNumber]);
-                if ( (wrongCount + correctCount) < maxQuestions )
+                if ( (wrongCount + correctCount + unansweredCount) < maxQuestions )
                 {
                    wrongCount++;
-                   if ( debug )
+                   //if ( debug )
                      console.log("aa increase wrongCount new "+wrongCount);
                 } 
                 else
@@ -238,15 +274,16 @@ $(document).ready(function() {
                     console.log("aa do not increase wrongCount???");          
             }
 
-          if ( (wrongCount + correctCount) >= maxQuestions)
+          if ( (wrongCount + correctCount + unansweredCount) >= maxQuestions)
           {
             if ( debug )
             console.log("AA set gameComplete");
             gameComplete = true;
-            setTimeout(restartGame,timeBetweenQuestions);
+            setTimeout(restartGame,timeBetweenGames);
+            displayFinalCounts();
           }
 
-          displayCounts();            
+          //displayCounts();            
     
 
      // }
@@ -268,11 +305,6 @@ $(document).ready(function() {
               //console.log("aa call dtl ");
               t1 = setTimeout(displayTimeLeft,timeBetweenQuestions);
             }
-            //test
-            /*else
-            {
-              displayCounts();
-            }*/
             console.log("aa end before dc ");
             displayCounts();
       }
@@ -307,17 +339,8 @@ $(document).ready(function() {
 // *********************************************************      
     function timeUp() {
         $("#time-left").text("times up");
-       // letsPlay = false;
         selectedAnswer = 'N';
-       // wrongCount++;
-     //test   answerChosen = true;
-            //$("#message").text("You selected C");
-            //$("#answerC").attr("selected",true);
-            //$("#answerC").attr("class","selected");
-            //console.log("timeUp " + "selected " + selectedAnswer);
-            //$("#message").text("Oh no... correct Answer is "+correctAnswer[questionNumber]);
-            //count = 0;
-            //questionNumber++;
+
       $("#message").text("Oh no... correct Answer is "+correctAnswer[questionNumber]);
             if ( questionNumber < (maxQuestions) )
             {
@@ -326,9 +349,10 @@ $(document).ready(function() {
               //test setTimeout(displayQuestion,1000*7);
               setTimeout(displayTimeLeft,1000);
               //test
-              wrongCount++;
-              if ( debug )
-              console.log("tu q increase wrongCount new "+wrongCount);
+              //wrongCount++;
+              unansweredCount++;
+              //if ( debug )
+              console.log("tu q increase unansweredCount new "+unansweredCount);
               //console.log("tu before inc questionNumber "+questionNumber);
                 questionNumber++;
                 if ( questionNumber >= maxQuestions)
@@ -336,7 +360,8 @@ $(document).ready(function() {
                  gameComplete=true;
                  if ( debug )
                  console.log("tu set gameComplete before dc");
-                 setTimeout(restartGame,timeBetweenQuestions);    
+                 setTimeout(restartGame,timeBetweenGames);
+                 displayFinalCounts();   
                 }
                 if ( debug )
                 console.log("tu q inc questionNumber new "+questionNumber);
@@ -348,7 +373,8 @@ $(document).ready(function() {
               if ( debug )
               console.log("tu set gameComplete do not increase wrongCount or questionNumber");
               displayCounts();
-              setTimeout(restartGame,timeBetweenQuestions);
+              setTimeout(restartGame,timeBetweenGames);
+              displayFinalCounts();
             }
               if ( debug )
               console.log("tu secondcount "+secondCount+" question "+questionNumber);
@@ -403,7 +429,7 @@ $(document).ready(function() {
 // *********************************************************
  function restartGame() {
     console.log("restartGame");
-    displayFinalCounts();
+ //   displayFinalCounts();
     $("#start").removeClass("hide");
    //test $("#start").attr("disabled","false");
   //  $("#start").removeClass("disabled");
@@ -411,12 +437,14 @@ $(document).ready(function() {
     $("#message").text("RESTARTGAME");
     $("#message2").text("RESTARTGAME");
     gameComplete = false;
+    $("#resultsSection").attr("class","hide");
     displayFirstMessages();
     answerChosen = false;
     secondCount = 0;
     questionNumber = 0;
     wrongCount = 0;
     correctCount = 0;
+    unansweredCount = 0;
     t1 = 0;
     t2 = 0;
     t3 = 0;

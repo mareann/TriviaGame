@@ -1,4 +1,8 @@
 
+body {
+  background-image: url("../images/background.jpg");
+}
+
 #message, #message2, #time-left, #name {
    font-size: 1.5em;
    text-align: center;
@@ -29,7 +33,7 @@ h1 {
 	height: 33%;
 	width: 100%;
 	font-size: 2em;
-	background-color: yellow;
+	background-color: #B5EAFC;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	text-align: center;
@@ -51,16 +55,19 @@ li {
 }
 
 ul {
-  text-align: center;
+/*  text-align: center;*/
+  margin-left: 10em;
   color: red;
   font-weight: bold;
   font-size: 2em;
 }
 
 #resultsHeader {
+  font-size: 2em;
+  margin-left: 10em;
   color: red;
   font-weight: bold;
-  text-align: center;
+/*  text-align: center;*/
 }
 
 .selected {

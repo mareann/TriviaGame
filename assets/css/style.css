@@ -8,6 +8,10 @@ body {
    text-align: center;
 }
 
+#message {
+  background-color: #B5EAFC;  
+}
+
 h1 {
    text-align: center;
 }
@@ -41,6 +45,10 @@ h1 {
 
 }
 
+#resultsSection {
+  background-color: red;
+}
+
 .disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -57,7 +65,7 @@ li {
 ul {
 /*  text-align: center;*/
   margin-left: 10em;
-  color: red;
+  color: white;
   font-weight: bold;
   font-size: 2em;
 }
@@ -65,7 +73,7 @@ ul {
 #resultsHeader {
   font-size: 2em;
   margin-left: 10em;
-  color: red;
+  color: white;
   font-weight: bold;
 /*  text-align: center;*/
 }
@@ -73,6 +81,11 @@ ul {
 .selected {
   background-color: blue;
   color: white;
+}
+
+#time-left {
+  font-size: 2em;
+  background-color: white;
 }
 
 #display {

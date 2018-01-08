@@ -36,6 +36,21 @@ $(document).ready(function() {
       Question:"What is a Blue Heeler also known as?",
       Answers: ["Australian Cattle Dog","English Bulldog","Australian Shepard","German Shepard"],
       correctAnswer:'A'
+   },
+   {
+      Question:"What from a dog can be used to uniquely identify it in the same way finger prints can be used to identify humans?",
+      Answers: ["its smell","its paw print","its tongue print","its nose print"],
+      correctAnswer:'D'
+   },
+   {
+      Question:"George Lucas pet Alaskan Malamute inspired the creation of which character?",
+      Answers: ["Ewoks","Porgs","Chewbacca","Yoda"],
+      correctAnswer:'C'
+   },
+   {
+      Question:"If you are looking for a mellow, mild-mannered dog, a good choice would be:",
+      Answers: ["Jack Russell Terrier","Cavalier King Charles Spaniel","Schnauzer","Welsh Corgi"],
+      correctAnswer:'B'
    }
 ]
 
@@ -51,7 +66,7 @@ $(document).ready(function() {
   var answerChosen = false;
   var secondCount = 0;
   var questionNumber = 0;
-  var maxQuestions = 7;
+  var maxQuestions = 10;
   var wrongCount = 0;
   var correctCount = 0;
   var unansweredCount = 0;
@@ -243,7 +258,27 @@ function afterAnswer()
     }
   else
     {
-      $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
+      switch (triviaObject[questionNumber].correctAnswer) {
+        case 'A':      
+  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+    " "+triviaObject[questionNumber].Answers[0]);
+  break;
+        case 'B':      
+  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+    " "+triviaObject[questionNumber].Answers[1]);
+  break;
+        case 'C':      
+  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+    " "+triviaObject[questionNumber].Answers[2]);
+  break;
+        case 'D':      
+  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+    " "+triviaObject[questionNumber].Answers[3]);
+          break;
+           default:     
+  $("#time-left").text("Oh no... Incorrect Answer");
+      }
+//      $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
       if (debug)
         console.log("aa Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
       if ( (wrongCount + correctCount + unansweredCount) < maxQuestions )

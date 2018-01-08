@@ -45,12 +45,12 @@ h1 {
 }
 
 #resultsBox {
-  margin-left: 8em;
-  margin-right: 8em;
+  width: 38%;
+  margin-left: 24em;
   background-color: #FCF787; /* medium yellow */
   height: 15em;
   align-content: center;
-  border: 5px solid #F75934; /* orange */ /*#FCF787;*/
+  border: 5px solid #F75934; /* orange */
   border-radius: 25px;
 }
 
@@ -68,7 +68,6 @@ li {
 }
 
 ul {
-  margin-left: 8em;
   color: black;
   font-weight: bold;
   font-size: 2.25em;

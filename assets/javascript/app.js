@@ -4,7 +4,7 @@ $(document).ready(function() {
       var triviaObject = [
          {
            Question:"what is most popular color?",
-           Answers:["A  blue", "B  green", "C  yellow", "D  purple"],
+           Answers:[" blue", " green", " yellow", " purple"],
            correctAnswer:'A'
          },
          {
@@ -67,7 +67,8 @@ $(document).ready(function() {
     $("#message").text("for playing ");
     $("#message2").text("TRIVIA GAME!!!");
     $("#resultsSection").removeClass("hide");
-    $("#resultsHeader").text("From "+maxQuestions+" questions");
+    $("#resultsBox").removeClass("hide");
+    $("#resultsHeader").text(maxQuestions+" questions");
     $("#finalCorrectCount").text("Correct Answers: "+correctCount);        
     $("#finalWrongCount").text("Wrong Answers: "+wrongCount);
     $("#finalUnansweredCount").text("Unanswered: "+unansweredCount);
@@ -102,6 +103,8 @@ $(document).ready(function() {
 // *********************************************************
 
       hideAnswerButtons();
+      $("#resultsSection").attr("class","hide");
+      $("#resultsBox").attr("class","hide");
       displayFirstMessages();
       gameComplete = false;
       $("#start").click( function() { 
@@ -197,7 +200,10 @@ $(document).ready(function() {
           {
             //console.log("cs if no answer call cs again");
             t2 = setTimeout(countSeconds,1000); //cs if no answerChosen
+            $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
           }
+          else
+            console.log("cs time-left");
        /*   else
           {
             if ( debug )
@@ -207,7 +213,7 @@ $(document).ready(function() {
             //displayCounts();
           }
        */
-         $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
+  //test       $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
 
         } // end secondCount
         else
@@ -229,14 +235,14 @@ $(document).ready(function() {
     answerChosen = true;
         //console.log("AA question "+ questionNumber+" set answerChosen to true");
         
-                $("#message").text("You selected "+selectedAnswer);
-                $("#answer"+selectedAnswer).attr("selected",true);
-                $("#answer"+selectedAnswer).attr("class","selected");
+    $("#message").text("You selected "+selectedAnswer);
+    $("#answer"+selectedAnswer).attr("selected",true);
+    $("#answer"+selectedAnswer).attr("class","selected");
              //  if ( questionNumber < (maxQuestions-1) )
              //  { 
-            if ( selectedAnswer === triviaObject[questionNumber].correctAnswer )
-              {
-                $("#time-left").text("Woo Hoo! YOU ARE CORRECT!");
+    if ( selectedAnswer === triviaObject[questionNumber].correctAnswer )
+      {
+                $("#time-left").text("Woo Hoo! You are CORRECT!");
                 $("#message").text("You chose "+selectedAnswer);
                 //test if ( questionNumber < (maxQuestions-1) )
                 if ( questionNumber < (maxQuestions) )
@@ -246,9 +252,9 @@ $(document).ready(function() {
                    console.log("aa increase correctCount new"+correctCount);
                  }
                 //displayCounts();
-              }
-            else
-            {
+      }
+    else
+      {
               $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
               console.log("aa Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
                 if ( (wrongCount + correctCount + unansweredCount) < maxQuestions )
@@ -260,16 +266,16 @@ $(document).ready(function() {
                 else
                   if ( debug )
                     console.log("aa do not increase wrongCount???");          
-            }
+      }
 
-          if ( (wrongCount + correctCount + unansweredCount) >= maxQuestions)
-          {
+    if ( (wrongCount + correctCount + unansweredCount) >= maxQuestions)
+      {
             if ( debug )
             console.log("AA set gameComplete");
             gameComplete = true;
             $("#questionSection").text("**** TRIVIA QUESTIONS ****");
-            setTimeout(restartGame,timeBetweenGames);
-            displayFinalCounts();
+            setTimeout(restartGame,timeBetweenQuestions+timeBetweenGames);
+            setTimeout(displayFinalCounts,timeBetweenQuestions);
           }
 
           //displayCounts();            
@@ -308,15 +314,10 @@ $(document).ready(function() {
        $("#questionSection").text(triviaObject[questionNumber].Question);
        showAnswerButtons();
 
-       $("#answerA").text(triviaObject[questionNumber].Answers[0]);
-       $("#answerB").text(triviaObject[questionNumber].Answers[1]);
-       $("#answerC").text(triviaObject[questionNumber].Answers[2]);
-       $("#answerD").text(triviaObject[questionNumber].Answers[3]);
-
-    //   $("#answerA").text(Answers[0+(4*questionNumber)]);
-    //   $("#answerB").text(Answers[1+(4*questionNumber)]);
-    //   $("#answerC").text(Answers[2+(4*questionNumber)]);
-    //   $("#answerD").text(Answers[3+(4*questionNumber)]);
+       $("#answerA").text("A. "+triviaObject[questionNumber].Answers[0]);
+       $("#answerB").text("B. "+triviaObject[questionNumber].Answers[1]);
+       $("#answerC").text("C. "+triviaObject[questionNumber].Answers[2]);
+       $("#answerD").text("D. "+triviaObject[questionNumber].Answers[3]);
       
        secondCount=timeToAnswer+1;
      }
@@ -333,9 +334,10 @@ $(document).ready(function() {
 
   } // end displayQuestion
 // *********************************************************      
-    function timeUp() {
+  function timeUp() {
 
-      $("#time-left").text("times up");
+      //$("#time-left").text("times up");
+      $("#time-left").text("********************");
       selectedAnswer = 'N';
 
       $("#message").text("Oh no... correct Answer is "+triviaObject[questionNumber].correctAnswer);
@@ -359,8 +361,8 @@ $(document).ready(function() {
               if ( debug )
                  console.log("tu set gameComplete before dc");
               $("#questionSection").text("**** TRIVIA QUESTIONS ****");
-              setTimeout(restartGame,timeBetweenGames);
-              displayFinalCounts();   
+              setTimeout(restartGame,timeBetweenQuestions+timeBetweenGames);
+              setTimeout(displayFinalCounts,timeBetweenQuestions); 
             }
           if ( debug )
             console.log("tu q inc questionNumber new "+questionNumber);
@@ -373,8 +375,8 @@ $(document).ready(function() {
               console.log("tu set gameComplete do not increase wrongCount or questionNumber");
           //displayCounts();
           $("#questionSection").text("**** TRIVIA QUESTIONS ****");
-          setTimeout(restartGame,timeBetweenGames);
-          displayFinalCounts();
+          setTimeout(restartGame,timeBetweenQuestions+timeBetweenGames);
+          setTimeout(displayFinalCounts,timeBetweenQuestions);
         }
         if ( debug )
           console.log("tu secondcount "+secondCount+" question "+questionNumber);
@@ -439,6 +441,7 @@ $(document).ready(function() {
     $("#message2").text("RESTARTGAME");
     gameComplete = false;
     $("#resultsSection").attr("class","hide");
+    $("#resultsBox").attr("class","hide");
     displayFirstMessages();
     answerChosen = false;
     secondCount = 0;

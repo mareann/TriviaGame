@@ -3,13 +3,13 @@ body {
   background-image: url("../images/background.jpg");
 }
 
-#message, #message2, #time-left, #name {
-   font-size: 1.5em;
+#message, #message2, #name {
+   font-size: 1.75em;
    text-align: center;
 }
 
 #message {
-  background-color: #B5EAFC;  
+  background-color: #68B6ED; /* blue */
 }
 
 h1 {
@@ -17,9 +17,9 @@ h1 {
 }
 
 #start {
-    margin: 0.5em;
-    width: 33%;
-    font-size: 1.5em;
+  margin: 0.5em;
+  width: 17%;
+  font-size: 1.5em;
 }
 
 #answerSection button {
@@ -29,33 +29,38 @@ h1 {
 
 #startSection {
 	height: 33%;
-    margin: auto;
-    text-align: center;
+  margin: auto;
+  text-align: center;
 }
 
 #questionSection {
 	height: 33%;
 	width: 100%;
 	font-size: 2em;
-	background-color: #B5EAFC;
+	background-color: #68B6ED;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	text-align: center;
 	padding: 1em;
-
 }
 
-#resultsSection {
-  background-color: red;
+#resultsBox {
+  margin-left: 8em;
+  margin-right: 8em;
+  background-color: #FCF787; /* medium yellow */
+  height: 15em;
+  align-content: center;
+  border: 5px solid #F75934; /* orange */ /*#FCF787;*/
+  border-radius: 25px;
 }
 
 .disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .hide {
-   display: none;
+  display: none;
 }
 
 li {
@@ -63,29 +68,22 @@ li {
 }
 
 ul {
-/*  text-align: center;*/
-  margin-left: 10em;
-  color: white;
+  margin-left: 8em;
+  color: black;
   font-weight: bold;
-  font-size: 2em;
-}
-
-#resultsHeader {
-  font-size: 2em;
-  margin-left: 10em;
-  color: white;
-  font-weight: bold;
-/*  text-align: center;*/
+  font-size: 2.25em;
 }
 
 .selected {
   background-color: blue;
+  font-weight: bold;
   color: white;
 }
 
 #time-left {
   font-size: 2em;
-  background-color: white;
+  text-align: center;
+  background-color: #F75934; /* orange */
 }
 
 #display {
@@ -101,17 +99,19 @@ ul {
 }
 
 button:hover {
-    background-color: blue;
-    color: white;
+  background-color: blue;
+  border-color: blue;
+  color: white;
 }
 
 button {
-	background-color: cadetblue;
-	border-color: cadetblue;
+	background-color: #F75934; /* orange */ /* #3CA2E6; /* med blue */
+	border-color: #F75934;     /* orange */ /* #3CA2E6; /* med blue */
 	width: 50%;
 	height: 20%;
-	text-align: center;
+  text-align: left; /* left and then use padding-left to align text on button */
 	padding: 0.5em;
-	margin: auto;
+  padding-left: 5%;
+	margin: auto; /* button in center of screen horizon */
 	margin-bottom: 0.1em;
 }

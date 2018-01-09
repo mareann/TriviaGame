@@ -34,8 +34,8 @@ $(document).ready(function() {
    },
    {
       Question:"What is a Blue Heeler also known as?",
-      Answers: ["Australian Cattle Dog","English Bulldog","Australian Shepard","German Shepard"],
-      correctAnswer:'A'
+      Answers: ["Australian Shepard","English Bulldog","Australian Cattle Dog","German Shepard"],
+      correctAnswer:'C'
    },
    {
       Question:"What from a dog can be used to uniquely identify it in the same way finger prints can be used to identify humans?",
@@ -210,8 +210,6 @@ function countSeconds()
       if ( secondCount ) 
       {
         secondCount--;
-     //test     $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
-
         if ( secondCount < 4) 
           {
             if ( debug )
@@ -219,7 +217,6 @@ function countSeconds()
           }
         if ( !answerChosen )
           {
-            //console.log("cs if no answer call cs again");
             t2 = setTimeout(countSeconds,1000); //cs if no answerChosen
             $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
           }
@@ -260,25 +257,24 @@ function afterAnswer()
     {
       switch (triviaObject[questionNumber].correctAnswer) {
         case 'A':      
-  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+          $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
     " "+triviaObject[questionNumber].Answers[0]);
-  break;
+          break;
         case 'B':      
-  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+          $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
     " "+triviaObject[questionNumber].Answers[1]);
   break;
-        case 'C':      
-  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+         case 'C':      
+           $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
     " "+triviaObject[questionNumber].Answers[2]);
   break;
         case 'D':      
-  $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
+          $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
     " "+triviaObject[questionNumber].Answers[3]);
           break;
-           default:     
-  $("#time-left").text("Oh no... Incorrect Answer");
+        default:     
+          $("#time-left").text("Oh no... Incorrect Answer");
       }
-//      $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
       if (debug)
         console.log("aa Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
       if ( (wrongCount + correctCount + unansweredCount) < maxQuestions )
@@ -402,7 +398,6 @@ function playGame()
       }
   });
 
-
   $("#answerC").click(function() {
     if ( answerChosen == false ) 
       {
@@ -411,15 +406,12 @@ function playGame()
       }
   });
 
-
   $("#answerD").click(function() {
     if ( answerChosen == false ) {
          selectedAnswer = "D";
          afterAnswer();
       }
   });
-
-       //return false;
 
 } // end playGame
 // *********************************************************

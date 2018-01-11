@@ -4,7 +4,7 @@ $(document).ready(function() {
   var triviaObject = [
    {
       Question:"A puggle is a cross between which two dog breeds?",
-      Answers:["Pug and Poodle", "Pug and Beagle", "Pug and Terrier", "Pug and Muggle"],
+      Answers:["Pug and Muggle", "Pug and Beagle", "Pug and Terrier", "Pug and Poodle"],
       correctAnswer:'B'
    },
    {
@@ -19,7 +19,7 @@ $(document).ready(function() {
    },
    {
       Question:"Through which part of the body do dogs sweat?",
-      Answers: ["nose","mouth","paws","armpits"],
+      Answers: ["nose","mouth","paws","ears"],
       correctAnswer:'C'
    },
    {
@@ -69,7 +69,7 @@ $(document).ready(function() {
   var correctCount = 0;
   var unansweredCount = 0;
   var t1 = 0, t2 = 0, t3 = 0;
-  var timeToAnswer = 10; //20;
+  var timeToAnswer = 15;
   var timeBetweenQuestions = 3*1000;
   var timeBetweenGames = 25*1000;
   var gameComplete = false;

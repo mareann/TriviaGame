@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
-
   <head>
-
     <meta charset="UTF-8">
     <title>Trivia Game</title>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
+  <!--  
+    *** DOG TRIVIA GAME ***
+        User selects from 4 multiple choice answers for
+        each dog trivia question
+        Each question has a time limit
+        Results displayed at end of each game
+          Correct answers count
+          Incorrect answers count
+          Unanswered questions count
+        Game will restart after the results
 
+        Maryann Jordan
+    *** DOG TRIVIA GAME ***
+  -->
   <body>
-
     <div id="wrapper">
       <h1>DOG TRIVIA GAME</h1>
-  
+      <!--  MESSAGES FOR USER  -->
       <div id="time-left"></div>
       <div id="message"></div>
       <div id="message2"></div>
-
+      <!--  USER PRESSES START BUTTON TO BEGIN GAME  -->
       <div id="startSection">
         <button id="start">START</button>
       </div>
-
+      <!--  QUESTION AND ANSWERS  -->
       <div id="questionSection"></div>
       <div id="answerSection" class="vertical-menu">  
         <button id="answerA"></button>
@@ -30,6 +39,7 @@
         <button id="answerC"></button>
         <button id="answerD"></button>     
       </div>
+      <!--  RESULTS OF GAME  -->
       <div id="resultsSection">
         <div id="resultsBox">
           <ul>
@@ -42,9 +52,10 @@
       </div>
     </div> <!-- end wrapper -->
 
+    <!--  JQUERY  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--  JAVASCRIPT  -->
     <script type="text/javascript" src="assets/javascript/app.js"></script>
-
   </body>
 
 </html>

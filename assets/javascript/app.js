@@ -4,17 +4,17 @@ $(document).ready(function() {
   var triviaObject = [
    {
       Question:"A puggle is a cross between which two dog breeds?",
-      Answers:["Pug and Beagle", "Pug and Poodle", "Terrier and Pug", "Poodle and Lab"],
-      correctAnswer:'A'
+      Answers:["Pug and Poodle", "Pug and Beagle", "Pug and Terrier", "Pug and Muggle"],
+      correctAnswer:'B'
    },
    {
       Question:"What is the most popular breed of dog in the United States?",
       Answers:["Beagle","Labrador Retriever","German Shepard","Poodle"],
-     correctAnswer:'B'
+      correctAnswer:'B'
    },
    {
       Question:"How many teeth do adult dogs have?",
-      Answers: ["24","32","42","28"],
+      Answers: ["24 teeth","32 teeth","42 teeth","28 teeth"],
       correctAnswer:'C'
    },
    {
@@ -60,9 +60,7 @@ $(document).ready(function() {
      console.log("triviaObject ans "+triviaObject[0].Answers);
      console.log("triviaObject q "+triviaObject[0].correctAnswer);
   }
-      
-  var randomQuestions = [99,99,99];
-  var questionOptions = [0,1,2];
+
   var answerChosen = false;
   var secondCount = 0;
   var questionNumber = 0;
@@ -77,21 +75,25 @@ $(document).ready(function() {
   var gameComplete = false;
   var debug = false;
   var test =0;
-  var letsPlay = false;
 
-// *********************************************************
+// **********************************************************
+// debug displayCount in console
+// **********************************************************
 function displayCounts() 
-  {
+ {
     console.log("correctCount "+ correctCount);
     console.log("wrongCount "+ wrongCount);
     console.log("unansweredCount "+unansweredCount);
     console.log("number of questions "+ maxQuestions);
     console.log("questionNumber "+questionNumber); 
     console.log("gameComplete "+gameComplete);
-  } // end displayCounts
+ } // end displayCounts
+// **********************************************************
+// displayFinalCounts
+// display results on screen
 // **********************************************************
 function displayFinalCounts() 
-  {
+ {
     hideAnswerButtons();
     $("#time-left").text("Thank you");
     $("#message").text("for playing!");
@@ -102,36 +104,50 @@ function displayFinalCounts()
     $("#finalCorrectCount").text("Correct Answers: "+correctCount);        
     $("#finalWrongCount").text("Wrong Answers: "+wrongCount);
     $("#finalUnansweredCount").text("Unanswered: "+unansweredCount);
-  } // end displayFinalCounts
+    //console.log("testing");
+ } // end displayFinalCounts
+// **********************************************************
+// hideAnswerButtons
 // **********************************************************
 function hideAnswerButtons() 
-  {
+ {
     $("#answerSection").attr("class","hide");
-  } // end hideAnswerButtons
-// *********************************************************
-function showAnswerButtons() 
-  {
+ } // end hideAnswerButtons
+// **********************************************************
+// dispLayAnswerButtons
+// use show class to display answer buttons
+// **********************************************************
+function dispLayAnswerButtons() 
+ {
     $("#answerSection").attr("class","show"); 
     $("#answerA").removeClass("selected");
     $("#answerB").removeClass("selected");
     $("#answerC").removeClass("selected");
     $("#answerD").removeClass("selected");
     answerChosen = false;      
-  } // end showAnswerButtons
+ } // end dispLayAnswerButtons
 // *********************************************************
+// displayFirstMessages
+// display beginning game information
 // *********************************************************      
 function displayFirstMessages() 
-  {
+ {
     $("#time-left").text(timeToAnswer+" seconds per question");
     $("#message").text("PRESS START TO BEGIN TRIVIA GAME");
     $("#message2").text("Good Luck!!!");
     $("#questionSection").text("**** TRIVIA QUESTIONS ****");
-  } // end displayFirstMessages
+ } // end displayFirstMessages
 
 // *********************************************************
 //                     M A I N
 // *********************************************************
-
+// hide answer buttons and results section
+// display first messages
+// wait for user to press start button
+// after start button press
+// call displayTimeLeft to start timers
+// hide start button
+// *********************************************************
   hideAnswerButtons();
   $("#resultsSection").attr("class","hide");
   $("#resultsBox").attr("class","hide");
@@ -140,77 +156,63 @@ function displayFirstMessages()
   // START Button
   $("#start").click( function() { 
     $("#message").text("START");
-    if ( secondCount )
-    $("#time-left").text("Time Remaining: "+secondCount +" seconds");
-    letsPlay=true; 
-    if  ( letsPlay ) 
-      {
-          $("#message2").text("SELECT YOUR ANSWER BELOW");
-          secondCount=timeToAnswer+1;
-          displayTimeLeft();
-          letsPlay = playGame();
-      }
+    $("#message2").text("SELECT YOUR ANSWER BELOW");
+    displayTimeLeft(); 
+    playGame();
     $("#start").attr("class","hide");
   }); // end start click function
-
+// *********************************************************
+// displayTimeLeft
+// set timer to display next Question 
+// set timer to count seconds allowed to answer question
 // *********************************************************
 function displayTimeLeft() 
  {
 
-   if ( gameComplete )
+  if ( gameComplete )
     {
-      if (debug)
+      if ( debug )
         console.log(" dtl gc return")
       return;
     }
-  console.log( "**** dtl q "+(questionNumber+1)+" secondcount "+secondCount);
+  if ( debug )
+    console.log( "**** dtl q "+(questionNumber+1)+" secondcount "+secondCount);
  
-  // display question for first question
-  if ( !questionNumber )
+  if ( questionNumber < maxQuestions )
     {
+      secondCount=timeToAnswer+1;
       t3 = setTimeout(displayQuestion,900);
-      t2 = setTimeout(countSeconds,1000); 
-
-      if ( debug )
-        console.log("dtl countSeconds 1cs dq0 questionNumber "+questionNumber);
+      t2 = setTimeout(countSeconds,1000); //displayTimeLeft q < max
     }
-  else  // display question for rest of questions
-    {
-      if ( debug )
-        console.log("dtl questionNumber "+questionNumber+" t2 t3 clearTimeout");
-
-      if ( questionNumber < maxQuestions )
-        {
-          secondCount=timeToAnswer+1;
-          t3 = setTimeout(displayQuestion,900);//test
-          t2 = setTimeout(countSeconds,1000); //displayTimeLeft q < max
-       }
-    } // end else
 
  } // end displayTimeLeft
 
-// *********************************************************
+// **********************************************************
+// countSecords
+// update seconds left on the screen
+// reset second timer if no answer chosen
+// if secondCount is 0 -- call timeUp function
+// **********************************************************
 function countSeconds() 
  {
 
-  if (debug)
+  if ( debug )
     {
       test++; // test timer
       console.log("test ",test);
     }
   if ( gameComplete )
     {
-      if (debug)
+      if ( debug )
         console.log("cs gc return");
       return;
     }
   if ( questionNumber < maxQuestions ) 
     { 
-
       if ( secondCount ) 
       {
         secondCount--;
-        if ( secondCount < 4) 
+        if ( secondCount < 4 ) 
           {
             if ( debug )
               console.log("2 countSeconds count is " + secondCount+ " answer "+answerChosen+" question "+questionNumber);
@@ -220,19 +222,20 @@ function countSeconds()
             t2 = setTimeout(countSeconds,1000); //cs if no answerChosen
             $("#time-left").text("Time Remaining: "+ secondCount +" seconds");
           }
-
       } // end secondCount
       else
       {
         if ( !answerChosen ) 
-          {
-            timeUp();
-          }
+          timeUp();
       }
     } // end questionNumber < maxQuestions
 
 } // end countSeconds
-
+// *********************************************************
+// afterAnswer
+// display correct answer or you are correct message
+// update correctCount or wrongCount
+// increase questionNumber
 // *********************************************************
 function afterAnswer() 
  {
@@ -252,9 +255,9 @@ function afterAnswer()
           if ( debug )
             console.log("aa increase correctCount new"+correctCount);
          }
-    }
+   }
   else
-    {
+   {
       switch (triviaObject[questionNumber].correctAnswer) {
         case 'A':      
           $("#time-left").text("Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer+
@@ -275,7 +278,7 @@ function afterAnswer()
         default:     
           $("#time-left").text("Oh no... Incorrect Answer");
       }
-      if (debug)
+      if ( debug )
         console.log("aa Oh no... Correct Answer was "+triviaObject[questionNumber].correctAnswer);
       if ( (wrongCount + correctCount + unansweredCount) < maxQuestions )
        {
@@ -310,15 +313,20 @@ function afterAnswer()
  } // end afterAnswer
 
 // *********************************************************
-function displayQuestion() {
+// displayQuestion
+// display question and answer choices
+// *********************************************************
+function displayQuestion() 
+ {
 
   if ( questionNumber < maxQuestions ) 
     {
-      console.log("displayQuestion " + questionNumber+" count "+secondCount);
+      if ( debug )
+        console.log("displayQuestion " + questionNumber+" count "+secondCount);
       $("#message").text("*** Question "+(questionNumber+1)+" ***");
       $("message2").text("*** SELECT ANSWER BELOW ***")
       $("#questionSection").text(triviaObject[questionNumber].Question);
-      showAnswerButtons();
+      dispLayAnswerButtons();
       $("#answerA").text("A. "+triviaObject[questionNumber].Answers[0]);
       $("#answerB").text("B. "+triviaObject[questionNumber].Answers[1]);
       $("#answerC").text("C. "+triviaObject[questionNumber].Answers[2]);
@@ -331,11 +339,18 @@ function displayQuestion() {
 
 } // end displayQuestion
 
-// *********************************************************      
+// ********************************************************* 
+// timeUp
+// update unansweredCount
+// increase questionNumber
+// call displayTimeLeft
+// reset secondCount
+// if last question, start final count timer, restart game timer
+// *********************************************************     
 function timeUp() 
  {
 
-  $("#time-left").text("**** No more time ****");
+  $("#time-left").text("**** Oh no... Times up ****");
   selectedAnswer = 'N';
 
   $("#message").text("Oh no... correct Answer is "+triviaObject[questionNumber].correctAnswer);
@@ -360,10 +375,12 @@ function timeUp()
           setTimeout(displayFinalCounts,timeBetweenQuestions);
         }
       if ( debug )
+      {
         console.log("tu q inc questionNumber new "+questionNumber);
-      displayCounts();
+        displayCounts();
+      }
     }
-    else
+  else
     {
       gameComplete = true;
       if ( debug )
@@ -372,12 +389,20 @@ function timeUp()
       setTimeout(restartGame,timeBetweenQuestions+timeBetweenGames);
       setTimeout(displayFinalCounts,timeBetweenQuestions);
     }
-    if ( debug )
+  if ( debug )
       console.log("tu secondcount "+secondCount+" question "+questionNumber);
-    secondCount=timeToAnswer+1;
+
+  secondCount=timeToAnswer+1;
+
+  if ( debug )
     displayCounts();
 
 } // end timeUp
+// *********************************************************
+// playGame
+// wait for user to answer question 
+// save user answer in selectAnswer
+// call afterAnswer
 // *********************************************************
 function playGame() 
  {
@@ -415,27 +440,32 @@ function playGame()
 
 } // end playGame
 // *********************************************************
+// restartGame
+// reset all game variables
+// *********************************************************
 function restartGame() 
-  {
-    displayCounts();
-    if (debug)
+ {
+   if ( debug )
+    {
       console.log("restartGame");
-    $("#start").removeClass("hide");
-    $("#message").text("RESTARTGAME");
-    $("#message2").text("RESTARTGAME");
-    gameComplete = false;
-    $("#resultsSection").attr("class","hide");
-    $("#resultsBox").attr("class","hide");
-    displayFirstMessages();
-    answerChosen = false;
-    secondCount = 0;
-    questionNumber = 0;
-    wrongCount = 0;
-    correctCount = 0;
-    unansweredCount = 0;
-    t1 = 0;
-    t2 = 0;
-    t3 = 0;
+      displayCounts();
+    }
+   $("#start").removeClass("hide");
+   $("#message").text("RESTARTGAME");
+   $("#message2").text("RESTARTGAME");
+   gameComplete = false;
+   $("#resultsSection").attr("class","hide");
+   $("#resultsBox").attr("class","hide");
+   displayFirstMessages();
+   answerChosen = false;
+   secondCount = 0;
+   questionNumber = 0;
+   wrongCount = 0;
+   correctCount = 0;
+   unansweredCount = 0;
+   t1 = 0;
+   t2 = 0;
+   t3 = 0;
  } // end restartGame
 
 }); // end document.ready(function()

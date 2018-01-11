@@ -46,6 +46,8 @@ h1 {
 	text-align: center;
   padding-top: 0.25em;
 	padding-bottom: 1.25em;
+  border-top: 0.6em solid #F75934; /* orange */
+  border-bottom: 0.9em solid #F75934; /* orange */
 }
 
 #resultsHeader {
@@ -53,13 +55,15 @@ h1 {
 }
 
 #resultsBox {
-  width: 38%;
-  margin-left: 24em;
+  width: 27%;
+  margin-left: 34%;
   background-color: #FCF787; /* medium yellow */
-  height: 15em;
+  height: 12em;
   align-content: center;
-  border: 5px solid #F75934; /* orange */
-  border-radius: 25px;
+  border: 0.3em solid #F75934; /* orange */
+  border-radius: 1.25em;
+  padding-top: 1em;
+  padding-left: 2em;
 }
 
 .disabled {

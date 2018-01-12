@@ -1,6 +1,8 @@
 // "document.ready" makes sure that our JavaScript doesn't get run until the HTML document is finished loading.
 $(document).ready(function() {
-
+// **********************************************************
+// Trivia Questions
+// **********************************************************
   var triviaObject = [
    {
       Question:"A puggle is a cross between which two dog breeds?",
@@ -60,7 +62,9 @@ $(document).ready(function() {
      console.log("triviaObject ans "+triviaObject[0].Answers);
      console.log("triviaObject q "+triviaObject[0].correctAnswer);
   }
-
+// **********************************************************
+// define variables
+// **********************************************************
   var answerChosen = false;
   var secondCount = 0;
   var questionNumber = 0;

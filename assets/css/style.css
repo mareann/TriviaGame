@@ -57,10 +57,10 @@ h1 {
 }
 
 #resultsBox {
-  width: 33%;
-  margin-left: 33%;
+  width: 34%;
+  margin-left: 30%;
   background-color: #FCF787; /* medium yellow */
-  height: 16em;
+  height: 14em;
   align-content: center;
   border: 0.3em solid #F75934; /* orange */
   border-radius: 1.25em;
